@@ -2,15 +2,27 @@ import { useEffect, useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import { assets } from '../assets/assets'
 import { useAppContext } from '../context/AppContext'
+import toast from 'react-hot-toast'
 
 
 const Navbar = () => {
   const [open, setOpen] = useState(false)
-  const { user, setUser, setShowUserLogin, navigate, setSearchQuery, searchQuery,getCartCount } = useAppContext();
+  const { user, setUser, setShowUserLogin, navigate, setSearchQuery, searchQuery, getCartCount, axios } = useAppContext();
 
   const logout = async () => {
-    setUser(null);
-    navigate('/');
+    try {
+      const { data } = await axios.get('/api/user/logout')
+      if (data.success) {
+        toast.success(data.message)
+        setUser(null);
+        navigate('/');
+      } else {
+        toast.error(data.message)
+      }
+    } catch (error) {
+      toast.error(error.message)
+    }
+
   }
 
   useEffect(() => {
@@ -57,16 +69,16 @@ const Navbar = () => {
           )}
 
       </div>
-       <div className='flex items-center gap-6 sm:hidden'>
-       <div onClick={() => navigate('/cart')} className="relative cursor-pointer">
+      <div className='flex items-center gap-6 sm:hidden'>
+        <div onClick={() => navigate('/cart')} className="relative cursor-pointer">
           <img src={assets.nav_cart_icon} alt='cart' className='w-6 opacity-80' />
           <button className="absolute -top-2 -right-3 text-xs text-white bg-primary w-[18px] h-[18px] rounded-full">{getCartCount()}</button>
         </div>
-       <button onClick={() => open ? setOpen(false) : setOpen(true)} aria-label="Menu" className="">
-        <img src={assets.menu_icon} alt='menu' />
-      </button>
-       </div>
-     
+        <button onClick={() => open ? setOpen(false) : setOpen(true)} aria-label="Menu" className="">
+          <img src={assets.menu_icon} alt='menu' />
+        </button>
+      </div>
+
 
       {/* Mobile Menu */}
       {open && (
