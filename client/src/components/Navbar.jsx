@@ -7,7 +7,7 @@ import toast from 'react-hot-toast'
 
 const Navbar = () => {
   const [open, setOpen] = useState(false)
-  const { user, setUser, setShowUserLogin, navigate, setSearchQuery, searchQuery, getCartCount, axios } = useAppContext();
+  const { user, setUser, setShowUserLogin, navigate, setSearchQuery, searchQuery, getCartCount, axios, isSeller } = useAppContext();
 
   const logout = async () => {
     try {
@@ -49,6 +49,10 @@ const Navbar = () => {
           <img src={assets.search_icon} alt='search' className='w-4 h-4' />
         </div>
 
+        <button onClick={() => navigate('/seller')} className="text-xs border border-gray-300 px-4 py-1.5 rounded-full bg-primary hover:bg-primary-dull  transition text-white rounded-full">
+          Seller Dashboard
+        </button>
+
         <div onClick={() => navigate('/cart')} className="relative cursor-pointer">
           <img src={assets.nav_cart_icon} alt='cart' className='w-6 opacity-80' />
           <button className="absolute -top-2 -right-3 text-xs text-white bg-primary w-[18px] h-[18px] rounded-full">{getCartCount()}</button>
@@ -89,6 +93,7 @@ const Navbar = () => {
             <NavLink to="/products" onClick={() => setOpen(false)}>My Orders</NavLink>
           }
           <NavLink to="/" onClick={() => setOpen(false)}>Contact</NavLink>
+          <button onClick={() => { navigate('/seller'); setOpen(false); }} className="text-left w-full py-1">Seller Dashboard</button>
 
           {!user ? (
             <button onClick={() => {

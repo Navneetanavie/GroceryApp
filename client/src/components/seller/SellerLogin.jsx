@@ -46,6 +46,9 @@ const SellerLogin = () => {
         </div>
         <button className='bg-primary text-white w-full py-2 rounded-md 
        cursor-pointer'>Login</button>
+        <p className='text-xs text-gray-500 mt-2'>
+          Demo: seller@gmail.com / seller123
+        </p>
       </div>
 
     </form>
