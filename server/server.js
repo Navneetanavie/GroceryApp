@@ -18,7 +18,7 @@ const port = process.env.PORT || 4000;
 await connectDB()
 await connectCloudinary()
 
-const allowedOrigins = ['http://localhost:5173']
+const allowedOrigins = ['http://localhost:5173', process.env.FRONTEND_URL]
 
 app.post('/stripe', express.raw({ type: 'application/json' }), stripeWebhooks)
 
@@ -39,3 +39,5 @@ app.use('/api/order', orderRouter)
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`)
 })
+
+export default app;
