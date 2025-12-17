@@ -10,9 +10,13 @@ const Loading = () => {
 
   useEffect(() => {
     if (nextUrl) {
-      setTimeout(() => {
+      const timer = setTimeout(() => {
         navigate(`/${nextUrl}`)
       }, 5000)
+      return () => clearTimeout(timer);
+    } else {
+      console.warn("No next param found in loader");
+      // navigate('/'); // Optional fallback
     }
   }, [nextUrl])
 
